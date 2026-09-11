@@ -1,6 +1,6 @@
 # Engineering Impact Dashboard
 
-A transparent, 4-pillar data pipeline and single-page Next.js dashboard that evaluates software engineer impact from 90 days of GitHub monorepo data. Built for [PostHog/posthog](https://github.com/PostHog/posthog): multi-pass GraphQL fetching, bot filtering, cohort normalization, and an auditable scoring model.
+A transparent, 4-pillar data pipeline and single-page Next.js dashboard that evaluates software engineer impact from 90 days of GitHub monorepo data. Built for [PostHog/posthog](https://github.com/PostHog/posthog): multi-pass GraphQL fetching, bot filtering, cohort normalization, and dynamic cohort normalization.
 
 ## Quick start
 
