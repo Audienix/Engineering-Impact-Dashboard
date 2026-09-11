@@ -105,7 +105,6 @@ GitHub GraphQL API v4
 
 2. **Data hygiene**
    - Filters automated accounts using `__typename === "Bot"` or login ending in `[bot]`.
-   - Large intermediate payloads (`pass1-prs.json`, `raw-prs.json`) are gitignored; only scored `data/impact.json` is committed for the dashboard.
 
 3. **Static pre-rendering**
    - The page imports `impact.json` at build time — no live GitHub calls on visit. Target: sub-second loads without rate-limit risk on preview hosts.
