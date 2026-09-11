@@ -31,7 +31,7 @@ const COLUMNS: Array<{
     key: "multiplier",
     label: "Multiplier (20%)",
     tooltip:
-      "Linear min-max score scaled against 99th-percentile cohort review volume outliers. Hover cell for raw review points.",
+      "100 = most review points in this cohort. Outliers with huge review volume compress everyone else. Hover the cell for raw points.",
   },
   { key: "reliability", label: "Reliability (15%)" },
 ];

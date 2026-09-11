@@ -33,24 +33,16 @@ function MultiplierCompressionCallout({
   return (
     <aside className="rounded-md border border-sky-200 bg-sky-50 px-2 py-2 text-[11px] leading-snug text-sky-950 dark:border-sky-900 dark:bg-sky-950/50 dark:text-sky-100">
       <p className="font-semibold text-sky-950 dark:text-sky-50">
-        💡 Why are Multiplier Scores heavily compressed?
+        Why Multiplier scores look compressed
       </p>
       <p className="mt-1.5">
-        <strong className="text-sky-950 dark:text-sky-50">
-          Mathematical Cause:{" "}
-        </strong>
-        Scores are min-max normalized across all {eligibleCount} eligible
-        humans over 90 days. Because 1 or 2 cohort outliers executed thousands
-        of review actions (setting a high cohort ceiling of {ceilingLabel}{" "}
-        pts), linear scaling maps even high review volumes (e.g., 400+ reviews)
-        to single-digit scores out of 100.
+        The 0–100 scale is relative to all {eligibleCount} eligible humans.
+        One or two people have thousands of review points (ceiling{" "}
+        {ceilingLabel}). Same as the Scale example: a huge max makes even 400+
+        reviews map to a small 0–100 score.
       </p>
       <p className="mt-1.5">
-        <strong className="text-sky-950 dark:text-sky-50">Validation: </strong>
-        The raw review activity, reviewer state weights (
-        <Code>CHANGES_REQUESTED</Code> = 2x, <Code>COMMENTED</Code> = 1.5x,{" "}
-        <Code>APPROVED</Code> = 1x), and specific PR links are preserved in
-        full in the expandable evidence logs.
+        Raw review points and PR links stay in the evidence drawer.
       </p>
     </aside>
   );
@@ -61,6 +53,15 @@ function Formula({ children }: { children: string }) {
     <p className="mt-1.5 rounded-md bg-zinc-100 px-2 py-1.5 font-mono text-[11px] leading-snug text-zinc-800 dark:bg-zinc-900 dark:text-zinc-200">
       {children}
     </p>
+  );
+}
+
+function Example({ children }: { children: ReactNode }) {
+  return (
+    <div className="mt-1.5 rounded-md border border-zinc-200 bg-zinc-50 px-2 py-1.5 text-[11px] leading-snug text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900/60 dark:text-zinc-300">
+      <p className="font-semibold text-zinc-900 dark:text-zinc-100">Example</p>
+      <div className="mt-1 space-y-1">{children}</div>
+    </div>
   );
 }
 
@@ -141,34 +142,31 @@ export function MethodologyPanel({ meta }: { meta: ImpactPayload["meta"] }) {
         {tab === "cohort" ? (
           <section className="space-y-3 text-[12px] leading-snug text-zinc-600 dark:text-zinc-300">
             <h3 className="text-[11px] font-semibold tracking-wide text-zinc-900 uppercase dark:text-zinc-100">
-              Cohort Eligibility &amp; Data Hygiene
+              Who is scored, and what data we keep
             </h3>
             <p>
               <strong className="text-zinc-900 dark:text-zinc-100">
-                Time Window.{" "}
+                Time window.{" "}
               </strong>
-              Last 90 days{" "}
-              <Code>{`[${windowStart}, ${windowEnd}]`}</Code> ≈{" "}
-              <Code>[fetchedAt − 90d, fetchedAt]</Code>, filtered on PR{" "}
-              <Code>mergedAt</Code>.
+              Last 90 days of merged PRs:{" "}
+              <Code>{`${windowStart} → ${windowEnd}`}</Code>.
             </p>
             <p>
               <strong className="text-zinc-900 dark:text-zinc-100">
-                Bot Exclusions.{" "}
+                Bots.{" "}
               </strong>
-              PRs or reviews by{" "}
-              <Code>author.__typename === &quot;Bot&quot;</Code> or login{" "}
-              <Code>/[bot]$/i</Code> are excluded.{" "}
+              GitHub Bot accounts and logins ending in{" "}
+              <Code>[bot]</Code> are excluded.{" "}
               <strong className="text-zinc-900 dark:text-zinc-100">
                 {bots} bots filtered.
               </strong>
             </p>
             <p>
               <strong className="text-zinc-900 dark:text-zinc-100">
-                Cohort Eligibility.{" "}
+                Who is eligible.{" "}
               </strong>
-              An engineer is eligible if they authored ≥ 2 merged human PRs{" "}
-              <em>or</em> conducted ≥ 5 reviews across distinct human authors.{" "}
+              An engineer is scored if they authored at least 2 merged human
+              PRs, or reviewed at least 5 different human authors.{" "}
               <strong className="text-zinc-900 dark:text-zinc-100">
                 {eligible} eligible humans.
               </strong>
@@ -178,9 +176,18 @@ export function MethodologyPanel({ meta }: { meta: ImpactPayload["meta"] }) {
             </Formula>
             <p>
               <strong className="text-zinc-900 dark:text-zinc-100">
-                File cap.{" "}
+                First 100 files only.{" "}
               </strong>
-              Pass 2 stores ≤ 100 paths per PR ({truncated} PRs truncated).
+              We only inspect the first 100 files in each PR (GitHub payload
+              limit). Extra paths are ignored for docs-only checks, leverage
+              buckets, and reliability matches.
+            </p>
+            <p>
+              In this run,{" "}
+              <strong className="text-zinc-900 dark:text-zinc-100">
+                {truncated} PRs
+              </strong>{" "}
+              had more than 100 files.
             </p>
           </section>
         ) : null}
@@ -193,30 +200,51 @@ export function MethodologyPanel({ meta }: { meta: ImpactPayload["meta"] }) {
 
             <Pillar title="Delivery Significance" weight="40%" defaultOpen>
               <p>
-                Completed user-facing value per authored merged human PR.
+                In practice: each of your merged PRs earns points for shipping
+                work. Ticketed work scores higher. Docs-only diffs keep a
+                fraction of those points — they are not a third bonus you add.
               </p>
               <ul className="list-disc space-y-0.5 pl-4">
                 <li>
-                  <strong>Base:</strong> 1.0 per merged PR
+                  <strong>Base:</strong> 1.0 for every merged PR
                 </li>
                 <li>
-                  <strong>Issue bonus:</strong> +1.0 if{" "}
-                  <Code>closedIssueCount ≥ 1</Code>
+                  <strong>Issue bonus:</strong> +1.0 if the PR closes at least
+                  one GitHub issue
                 </li>
                 <li>
-                  <strong>Doc/lockfile penalty:</strong> ×0.25 if 100% of paths
-                  match <Code>docs/</Code>, <Code>*.md</Code>,{" "}
-                  <Code>CHANGELOG*</Code>, <Code>package-lock.json</Code>,{" "}
-                  <Code>pnpm-lock.yaml</Code>, or <Code>yarn.lock</Code>
+                  <strong>Docs/lockfile penalty:</strong> keep ×0.25 of that
+                  total only when <em>every</em> path is docs, markdown,
+                  changelog, or a lockfile. A PR that also changes product code
+                  is not penalized.
                 </li>
               </ul>
               <Formula>
                 Raw Delivery = Σ ((Base + IssueBonus) × DocPenalty)
               </Formula>
+              <Example>
+                <ul className="list-disc space-y-0.5 pl-4">
+                  <li>
+                    Feature PR closing #412 →{" "}
+                    <Code>(1 + 1) × 1 = 2</Code>
+                  </li>
+                  <li>
+                    README-only PR → <Code>(1 + 0) × 0.25 = 0.25</Code>
+                  </li>
+                  <li>
+                    Changelog that closes an issue →{" "}
+                    <Code>(1 + 1) × 0.25 = 0.5</Code>
+                  </li>
+                </ul>
+                <p>Sum those values across the engineer’s merged PRs.</p>
+              </Example>
             </Pillar>
 
             <Pillar title="Technical Scope & Leverage" weight="25%">
-              <p>Architectural breadth via unique directory buckets.</p>
+              <p>
+                In practice: we score unique top-level areas you touched in 90
+                days, not every file and not every PR in the same folder.
+              </p>
               <ul className="list-disc space-y-0.5 pl-4">
                 <li>
                   <strong>Infra ×2.0:</strong> <Code>.github/</Code>,{" "}
@@ -233,27 +261,36 @@ export function MethodologyPanel({ meta }: { meta: ImpactPayload["meta"] }) {
                   <Code>livestream/</Code>, <Code>services/</Code>
                 </li>
                 <li>
-                  <strong>Weak ×0.5:</strong> <Code>packages/</Code> (two
-                  isolated packages, one bucket)
+                  <strong>Weak ×0.5:</strong> <Code>packages/</Code> (once, even
+                  if many packages)
                 </li>
                 <li>
                   <strong>Unclassified ×0.0:</strong> <Code>playwright/</Code>,{" "}
                   <Code>funnel-udf/</Code>, <Code>share/</Code>,{" "}
-                  <Code>tools/</Code>, <Code>patches/</Code> — baseline
-                  delivery only
+                  <Code>tools/</Code>, <Code>patches/</Code> — still count in
+                  Delivery, not here
                 </li>
               </ul>
               <Formula>
                 Raw Leverage = Σ(uniqueInfra×2) + Σ(uniqueProduct×1) +
                 (packages×0.5)
               </Formula>
+              <Example>
+                <p>
+                  Sam touches <Code>frontend/</Code> on many PRs, plus{" "}
+                  <Code>.github/</Code> and <Code>packages/</Code> →{" "}
+                  <Code>1 + 2 + 0.5 = 3.5</Code>. A tenth PR in{" "}
+                  <Code>frontend/</Code> adds nothing new.
+                </p>
+              </Example>
             </Pillar>
 
             <Pillar title="Engineering Multiplier" weight="20%" defaultOpen>
               <p>
-                Review throughput on human PRs where reviewer ≠ author. Bot PRs
-                do not count. Distinct-author count is eligibility only, not
-                this score.
+                In practice: points for reviewing other people’s PRs. Requesting
+                changes counts more than a rubber-stamp approve. Your own PRs
+                and bot PRs do not count. How many distinct authors you
+                reviewed is only for eligibility, not this score.
               </p>
               <ul className="list-disc space-y-0.5 pl-4">
                 <li>
@@ -270,6 +307,13 @@ export function MethodologyPanel({ meta }: { meta: ImpactPayload["meta"] }) {
                 </li>
               </ul>
               <Formula>Raw Multiplier = Σ WeightedReviewState</Formula>
+              <Example>
+                <p>
+                  Two <Code>APPROVED</Code> (1+1), one <Code>COMMENTED</Code>{" "}
+                  (1.5), one <Code>CHANGES_REQUESTED</Code> (2) →{" "}
+                  <strong>5.5</strong> raw.
+                </p>
+              </Example>
               <MultiplierCompressionCallout
                 eligibleCount={eligible}
                 ceilingLabel={formatCeiling(meta.multiplierMaxRaw)}
@@ -278,8 +322,9 @@ export function MethodologyPanel({ meta }: { meta: ImpactPayload["meta"] }) {
 
             <Pillar title="Risk & Reliability" weight="15%">
               <p>
-                A PR counts if <em>any</em> file or label matches
-                (case-insensitive):
+                In practice: count authored PRs that touch CI, security, or
+                high-stakes infra, or carry incident/hotfix/security labels. One
+                PR counts once even if many files match.
               </p>
               <ul className="list-disc space-y-0.5 pl-4">
                 <li>
@@ -301,6 +346,13 @@ export function MethodologyPanel({ meta }: { meta: ImpactPayload["meta"] }) {
                 </li>
               </ul>
               <Formula>Raw Risk = count of matching authored PRs</Formula>
+              <Example>
+                <p>
+                  A PR changing <Code>rust/</Code> and <Code>clickhouse</Code> ={" "}
+                  <strong>1</strong>. A second PR labeled <Code>hotfix</Code> ={" "}
+                  +1. Total raw = 2.
+                </p>
+              </Example>
             </Pillar>
           </section>
         ) : null}
@@ -308,19 +360,47 @@ export function MethodologyPanel({ meta }: { meta: ImpactPayload["meta"] }) {
         {tab === "scale" ? (
           <section className="space-y-3 text-[12px] leading-snug text-zinc-600 dark:text-zinc-300">
             <h3 className="text-[11px] font-semibold tracking-wide text-zinc-900 uppercase dark:text-zinc-100">
-              Normalization &amp; Evidence
+              How 0–100 scores are built
             </h3>
             <p>
               <strong className="text-zinc-900 dark:text-zinc-100">
-                Min-max scaling.{" "}
+                100 is not a universal benchmark.{" "}
               </strong>
-              Each raw dimension is mapped to 0–100 across the {eligible}{" "}
-              eligible humans, then weights are applied. 100 = the peak
-              benchmark in that pillar over 90 days.
+              For each pillar, 100 is the eligible engineer with the highest
+              raw total in this 90-day window; 0 is the lowest. Everyone else
+              sits on that line among the {eligible} eligible humans. Weights
+              are applied after scaling.
             </p>
+            <ul className="list-disc space-y-0.5 pl-4">
+              <li>
+                <strong className="text-zinc-900 dark:text-zinc-100">
+                  raw
+                </strong>{" "}
+                — that engineer’s unscaled points for the pillar (shown in the
+                evidence drawer)
+              </li>
+              <li>
+                <strong className="text-zinc-900 dark:text-zinc-100">
+                  min / max
+                </strong>{" "}
+                — lowest and highest raw among eligible humans
+              </li>
+            </ul>
             <Formula>
-              {`score_i = 100 × (raw_i − min) / (max − min)`}
+              {`score = 100 × (raw − min) / (max − min)`}
             </Formula>
+            <Example>
+              <p>
+                Delivery min = 10, max = 110, Alex’s raw = 60:
+              </p>
+              <p className="font-mono">
+                (60 − 10) / (110 − 10) × 100 = 50
+              </p>
+              <p>
+                Alex is halfway between the weakest and strongest Delivery in
+                the cohort.
+              </p>
+            </Example>
             <Formula>
               Composite = 0.40D + 0.25L + 0.20M + 0.15R
             </Formula>
@@ -328,8 +408,8 @@ export function MethodologyPanel({ meta }: { meta: ImpactPayload["meta"] }) {
               <strong className="text-zinc-900 dark:text-zinc-100">
                 Review compression.{" "}
               </strong>
-              Multiplier scores look low because min-max scales against extreme
-              cohort volume outliers.
+              Same math: if Multiplier max is thousands of points, even 400
+              reviews sit close to 0 on a 0–100 scale.
             </p>
             <p>
               <strong className="text-zinc-900 dark:text-zinc-100">
@@ -339,16 +419,13 @@ export function MethodologyPanel({ meta }: { meta: ImpactPayload["meta"] }) {
             </p>
             <p>
               <strong className="text-zinc-900 dark:text-zinc-100">
-                Evidence auditability.{" "}
+                Evidence.{" "}
               </strong>
-              Each engineer’s row exposes the top 3 backing GitHub PR links per
-              dimension (path prefixes for leverage).
-            </p>
-            <p>
-              Unclassified paths (<Code>playwright/</Code>,{" "}
-              <Code>funnel-udf/</Code>, <Code>share/</Code>, <Code>tools/</Code>
-              , <Code>patches/</Code>) get baseline delivery only. File lists
-              cap at 100 paths ({truncated} PRs capped).
+              Each row’s drawer shows the top 3 backing GitHub PRs per pillar
+              (directory prefixes for leverage). Unclassified paths (
+              <Code>playwright/</Code>, <Code>funnel-udf/</Code>,{" "}
+              <Code>share/</Code>, <Code>tools/</Code>, <Code>patches/</Code>)
+              still earn Delivery, not Leverage.
             </p>
           </section>
         ) : null}

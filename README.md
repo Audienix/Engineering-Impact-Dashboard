@@ -54,32 +54,42 @@ $$
 \text{Composite Score} = 0.40(\text{Delivery}) + 0.25(\text{Leverage}) + 0.20(\text{Multiplier}) + 0.15(\text{Reliability})
 $$
 
-Each dimension is scaled to **0–100** across the eligible cohort before weights are applied. Ties break on Delivery, then Multiplier.
+Each pillar is **relative ranking, not a universal 100.** After raw points are summed, we scale that pillar to 0–100 across eligible humans: 100 = the highest raw total in this 90-day window, 0 = the lowest. Then weights are applied. Ties break on Delivery, then Multiplier.
+
+$$
+\text{score} = 100 \times (\text{raw} - \text{min}) / (\text{max} - \text{min})
+$$
+
+Example: Delivery min = 10, max = 110, Alex’s raw = 60 → 50 (halfway in the cohort).
 
 ### 1. Delivery Significance (40% weight)
 
-- **What it measures:** Completed user-facing work.
-- **Formula:** $1.0\ (\text{base}) + 1.0\ (\text{if closes} \ge 1\ \text{issue})$, downweighted by **0.25×** for pure documentation/lockfile diffs.
+- **What it measures:** Completed user-facing work per merged PR.
+- **Rules:** 1.0 base per merged PR; +1.0 if it closes ≥ 1 GitHub issue. Docs/lockfile-**only** PRs keep **25%** of that total (multiply; mixed product+docs PRs are not penalized).
+- **Example:** Feature PR closing #412 → 2. README-only → 0.25. Changelog that closes an issue → 0.5. Sum across merged PRs.
 
 ### 2. Technical Scope & Leverage (25% weight)
 
-- **What it measures:** Architectural span and core infrastructure footprint.
+- **What it measures:** Unique top-level areas touched (not every file, not repeat PRs in the same folder).
 - **Taxonomy:**
-  - **Shared / Infra (2.0×):** `.github/`, `docker/`, `terraform/`, `bin/`, `devenv/`, `common/`, `proto/`
-  - **Product buckets (1.0×):** `frontend/`, `posthog/`, `ee/`, `products/`, `rust/`, `nodejs/`, `services/`
-  - **Weak leverage (0.5×):** `packages/`
-  - **Baseline only (0.0×):** `playwright/`, `funnel-udf/`, `share/`, `tools/`, `patches/`
+  - **Shared / Infra (2.0):** `.github/`, `docker/`, `terraform/`, `bin/`, `devenv/`, `common/`, `proto/`
+  - **Product buckets (1.0):** `frontend/`, `posthog/`, `ee/`, `products/`, `rust/`, `nodejs/`, `services/`
+  - **Weak leverage (0.5):** `packages/` (once)
+  - **Baseline only (0.0 here):** `playwright/`, `funnel-udf/`, `share/`, `tools/`, `patches/` — still count in Delivery
+- **Example:** `frontend/` + `.github/` + `packages/` → 1 + 2 + 0.5 = 3.5. A tenth PR in `frontend/` adds nothing new.
 
 ### 3. Engineering Multiplier (20% weight)
 
-- **What it measures:** Code review throughput and peer enablement on **other humans’** PRs.
-- **State weights:** `CHANGES_REQUESTED` (2.0×), `COMMENTED` (1.5×), `APPROVED` (1.0×).
-- **Note on compression:** Multiplier scores are min–max normalized across the entire human cohort. Because 1–2 volume outliers performed thousands of review actions, linear scaling compresses high raw review counts (e.g. 411 reviews) to low normalized scores. Full raw points are visible in the UI evidence drawers.
+- **What it measures:** Reviews on **other humans’** PRs. Distinct authors reviewed is eligibility only.
+- **State weights:** `CHANGES_REQUESTED` (2.0), `COMMENTED` (1.5), `APPROVED` (1.0).
+- **Example:** Two approvals + one comment + one changes-requested → 1+1+1.5+2 = 5.5 raw.
+- **Compression:** 100 = most review points in this cohort. Outliers with thousands of review actions pull the max up, so even 400+ reviews can look like a small 0–100 score. Raw points stay in the evidence drawers.
 
 ### 4. Risk & Reliability (15% weight)
 
-- **What it measures:** Contributions to system safety and high-stakes infrastructure.
-- **Triggers:** Authored PRs touching `.github/`, security/auth paths, `rust/`, `terraform/`, `clickhouse`, or PRs with `incident` / `hotfix` labels.
+- **What it measures:** Authored PRs that touch CI/security/high-stakes infra or carry `incident` / `hotfix` / `security` labels. One PR counts once even if many files match.
+- **Triggers:** `.github/`, security/auth paths, `rust/`, `terraform/`, `clickhouse`, and related labels.
+- **Example:** PR changing `rust/` and `clickhouse` = 1. A second PR labeled `hotfix` = +1. Total raw = 2.
 
 ---
 
