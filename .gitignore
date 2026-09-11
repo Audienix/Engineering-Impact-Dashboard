@@ -34,10 +34,8 @@ yarn-error.log*
 .env*
 !.env.example
 
-# fetched GitHub payloads (large; regenerate with npm run fetch)
-/data/pass1-prs.json
+# fetch/score temp files
 /data/pass1-prs.json.tmp
-/data/raw-prs.json
 /data/raw-prs.json.tmp
 /data/impact.json.tmp
 
