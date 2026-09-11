@@ -1,0 +1,585 @@
+{
+  "meta": {
+    "repo": "PostHog/posthog",
+    "windowStart": "2026-06-13T00:00:00.000Z",
+    "windowEnd": "2026-09-11T23:59:59.999Z",
+    "fetchedAt": "2026-09-11T13:58:04.383Z",
+    "searchQueryBase": "repo:PostHog/posthog is:pr is:merged merged:2026-06-13..2026-09-11",
+    "totals": {
+      "prs": 14936,
+      "human": 13601,
+      "bot": 1335
+    },
+    "rateLimit": {
+      "firstPageCost": 2,
+      "firstPageRemaining": 4996,
+      "finalCost": 1,
+      "finalRemaining": 3579,
+      "resetAt": "2026-09-11T14:57:26Z"
+    },
+    "pass2": {
+      "batchSize": 18,
+      "estimatedBatchCalls": 756,
+      "executed": true,
+      "completedBatches": 756,
+      "humanFilesFetched": 13601,
+      "truncatedFileLists": 96
+    },
+    "eligibleHumanCount": 178,
+    "eligibility": "human AND (>=2 merged PRs authored OR >=5 reviews across distinct authors)",
+    "scoredAt": "2026-09-11T15:30:07.770Z",
+    "multiplierMaxRaw": 10183.5
+  },
+  "top5": [
+    {
+      "rank": 1,
+      "login": "Gilbert09",
+      "name": null,
+      "avatarUrl": "https://github.com/Gilbert09.png",
+      "composite": 65.1,
+      "dimensions": {
+        "delivery": {
+          "score": 100,
+          "weight": 0.4,
+          "raw": 2476.5
+        },
+        "leverage": {
+          "score": 50.5,
+          "weight": 0.25,
+          "raw": 46
+        },
+        "multiplier": {
+          "score": 4,
+          "weight": 0.2,
+          "raw": 411.5,
+          "distinctAuthors": 60
+        },
+        "reliability": {
+          "score": 77.8,
+          "weight": 0.15,
+          "raw": 105
+        }
+      },
+      "why": "Highest delivery score in this ranking (Closed issue(s) #72151); also high risk/reliability.",
+      "evidence": {
+        "delivery": [
+          {
+            "prNumber": 72612,
+            "url": "https://github.com/PostHog/posthog/pull/72612",
+            "title": "feat(data-warehouse): implement plivo import source",
+            "note": "Closed issue(s) #72151"
+          },
+          {
+            "prNumber": 72647,
+            "url": "https://github.com/PostHog/posthog/pull/72647",
+            "title": "feat(data-warehouse): implement razorpay import source",
+            "note": "Closed issue(s) #40661"
+          },
+          {
+            "prNumber": 78791,
+            "url": "https://github.com/PostHog/posthog/pull/78791",
+            "title": "fix(deltalite): close the three delta-rs MERGE fallback causes",
+            "note": "Closed issue(s) #1, #3"
+          }
+        ],
+        "leverage": [
+          {
+            "pathPrefix": ".github",
+            "prCount": 15,
+            "note": "weight 2"
+          },
+          {
+            "pathPrefix": "common",
+            "prCount": 1,
+            "note": "weight 2"
+          },
+          {
+            "pathPrefix": "products/warehouse_sources",
+            "prCount": 1909,
+            "note": "weight 1"
+          }
+        ],
+        "multiplier": [
+          {
+            "prNumber": 65692,
+            "url": "https://github.com/PostHog/posthog/pull/65692",
+            "reviewState": "CHANGES_REQUESTED",
+            "note": "CHANGES_REQUESTED on @jabahamondes's PR"
+          },
+          {
+            "prNumber": 89875,
+            "url": "https://github.com/PostHog/posthog/pull/89875",
+            "reviewState": "CHANGES_REQUESTED",
+            "note": "CHANGES_REQUESTED on @benjackwhite's PR"
+          },
+          {
+            "prNumber": 63117,
+            "url": "https://github.com/PostHog/posthog/pull/63117",
+            "reviewState": "COMMENTED",
+            "note": "COMMENTED on @danielcarletti's PR"
+          }
+        ],
+        "reliability": [
+          {
+            "prNumber": 63540,
+            "url": "https://github.com/PostHog/posthog/pull/63540",
+            "title": "feat(data-warehouse): redesign new-source wizard as a category catalog",
+            "note": "clickhouse, auth"
+          },
+          {
+            "prNumber": 63592,
+            "url": "https://github.com/PostHog/posthog/pull/63592",
+            "title": "feat(data-warehouse): add semantic context layer for warehouse tables",
+            "note": ".semgrep/"
+          },
+          {
+            "prNumber": 63678,
+            "url": "https://github.com/PostHog/posthog/pull/63678",
+            "title": "fix(salesforce): treat inactive user as non-retryable",
+            "note": "auth"
+          }
+        ]
+      }
+    },
+    {
+      "rank": 2,
+      "login": "webjunkie",
+      "name": null,
+      "avatarUrl": "https://github.com/webjunkie.png",
+      "composite": 42.5,
+      "dimensions": {
+        "delivery": {
+          "score": 11.1,
+          "weight": 0.4,
+          "raw": 274.3
+        },
+        "leverage": {
+          "score": 100,
+          "weight": 0.25,
+          "raw": 91
+        },
+        "multiplier": {
+          "score": 2.9,
+          "weight": 0.2,
+          "raw": 293.5,
+          "distinctAuthors": 40
+        },
+        "reliability": {
+          "score": 83,
+          "weight": 0.15,
+          "raw": 112
+        }
+      },
+      "why": "Broad or infra-critical footprint (.github); also high risk/reliability.",
+      "evidence": {
+        "delivery": [
+          {
+            "prNumber": 59664,
+            "url": "https://github.com/PostHog/posthog/pull/59664",
+            "title": "chore(devex): per-product backend coverage report on PRs",
+            "note": "Merged work"
+          },
+          {
+            "prNumber": 62443,
+            "url": "https://github.com/PostHog/posthog/pull/62443",
+            "title": "feat(db): add fail-fast circuit breaker for product databases",
+            "note": "Merged work"
+          },
+          {
+            "prNumber": 62672,
+            "url": "https://github.com/PostHog/posthog/pull/62672",
+            "title": "feat(devex): per-PR PostHog preview environments on hogland hogboxes",
+            "note": "Merged work"
+          }
+        ],
+        "leverage": [
+          {
+            "pathPrefix": ".github",
+            "prCount": 95,
+            "note": "weight 2"
+          },
+          {
+            "pathPrefix": "bin",
+            "prCount": 9,
+            "note": "weight 2"
+          },
+          {
+            "pathPrefix": "docker-root",
+            "prCount": 8,
+            "note": "weight 2"
+          }
+        ],
+        "multiplier": [
+          {
+            "prNumber": 62635,
+            "url": "https://github.com/PostHog/posthog/pull/62635",
+            "reviewState": "CHANGES_REQUESTED",
+            "note": "CHANGES_REQUESTED on @pauldambra's PR"
+          },
+          {
+            "prNumber": 66197,
+            "url": "https://github.com/PostHog/posthog/pull/66197",
+            "reviewState": "CHANGES_REQUESTED",
+            "note": "CHANGES_REQUESTED on @pauldambra's PR"
+          },
+          {
+            "prNumber": 69970,
+            "url": "https://github.com/PostHog/posthog/pull/69970",
+            "reviewState": "CHANGES_REQUESTED",
+            "note": "CHANGES_REQUESTED on @pauldambra's PR"
+          }
+        ],
+        "reliability": [
+          {
+            "prNumber": 59664,
+            "url": "https://github.com/PostHog/posthog/pull/59664",
+            "title": "chore(devex): per-product backend coverage report on PRs",
+            "note": "CI (.github)"
+          },
+          {
+            "prNumber": 62672,
+            "url": "https://github.com/PostHog/posthog/pull/62672",
+            "title": "feat(devex): per-PR PostHog preview environments on hogland hogboxes",
+            "note": "CI (.github)"
+          },
+          {
+            "prNumber": 62908,
+            "url": "https://github.com/PostHog/posthog/pull/62908",
+            "title": "chore(devex): pin nodejs geoip tests to MaxMind test database",
+            "note": "CI (.github)"
+          }
+        ]
+      }
+    },
+    {
+      "rank": 3,
+      "login": "pauldambra",
+      "name": null,
+      "avatarUrl": "https://github.com/pauldambra.png",
+      "composite": 34.8,
+      "dimensions": {
+        "delivery": {
+          "score": 18.5,
+          "weight": 0.4,
+          "raw": 458.3
+        },
+        "leverage": {
+          "score": 72,
+          "weight": 0.25,
+          "raw": 65.5
+        },
+        "multiplier": {
+          "score": 1.7,
+          "weight": 0.2,
+          "raw": 171,
+          "distinctAuthors": 41
+        },
+        "reliability": {
+          "score": 60.7,
+          "weight": 0.15,
+          "raw": 82
+        }
+      },
+      "why": "Broad or infra-critical footprint (.github); also high risk/reliability.",
+      "evidence": {
+        "delivery": [
+          {
+            "prNumber": 70092,
+            "url": "https://github.com/PostHog/posthog/pull/70092",
+            "title": "fix(hobby): point logs ClickHouse and flags service at in-cluster containers",
+            "note": "Closed issue(s) #70063"
+          },
+          {
+            "prNumber": 82259,
+            "url": "https://github.com/PostHog/posthog/pull/82259",
+            "title": "fix(logs): verify hobby log ingestion",
+            "note": "Closed issue(s) #61109"
+          },
+          {
+            "prNumber": 99209,
+            "url": "https://github.com/PostHog/posthog/pull/99209",
+            "title": "fix(posthog-ai): stabilize lazy tool registry test",
+            "note": "Closed issue(s) #99096"
+          }
+        ],
+        "leverage": [
+          {
+            "pathPrefix": ".github",
+            "prCount": 56,
+            "note": "weight 2"
+          },
+          {
+            "pathPrefix": "bin",
+            "prCount": 13,
+            "note": "weight 2"
+          },
+          {
+            "pathPrefix": "common",
+            "prCount": 10,
+            "note": "weight 2"
+          }
+        ],
+        "multiplier": [
+          {
+            "prNumber": 63497,
+            "url": "https://github.com/PostHog/posthog/pull/63497",
+            "reviewState": "COMMENTED",
+            "note": "COMMENTED on @clr182's PR"
+          },
+          {
+            "prNumber": 64117,
+            "url": "https://github.com/PostHog/posthog/pull/64117",
+            "reviewState": "COMMENTED",
+            "note": "COMMENTED on @rnegron's PR"
+          },
+          {
+            "prNumber": 64173,
+            "url": "https://github.com/PostHog/posthog/pull/64173",
+            "reviewState": "COMMENTED",
+            "note": "COMMENTED on @fercgomes's PR"
+          }
+        ],
+        "reliability": [
+          {
+            "prNumber": 61823,
+            "url": "https://github.com/PostHog/posthog/pull/61823",
+            "title": "feat(hobby): support BYO AI keys and gate cloud-only replay summaries",
+            "note": "Matched reliability/CI/security path or label"
+          },
+          {
+            "prNumber": 64557,
+            "url": "https://github.com/PostHog/posthog/pull/64557",
+            "title": "fix(ci): run storybook visual regression on quill changes",
+            "note": "CI (.github)"
+          },
+          {
+            "prNumber": 65199,
+            "url": "https://github.com/PostHog/posthog/pull/65199",
+            "title": "feat(mcp-analytics): add harness breakdown query runner",
+            "note": "clickhouse"
+          }
+        ]
+      }
+    },
+    {
+      "rank": 4,
+      "login": "rnegron",
+      "name": null,
+      "avatarUrl": "https://github.com/rnegron.png",
+      "composite": 30.3,
+      "dimensions": {
+        "delivery": {
+          "score": 10,
+          "weight": 0.4,
+          "raw": 246.5
+        },
+        "leverage": {
+          "score": 42.9,
+          "weight": 0.25,
+          "raw": 39
+        },
+        "multiplier": {
+          "score": 2.9,
+          "weight": 0.2,
+          "raw": 297.5,
+          "distinctAuthors": 45
+        },
+        "reliability": {
+          "score": 100,
+          "weight": 0.15,
+          "raw": 135
+        }
+      },
+      "why": "Concentrated work on CI, security, or reliability-critical paths; also high scope/leverage.",
+      "evidence": {
+        "delivery": [
+          {
+            "prNumber": 81257,
+            "url": "https://github.com/PostHog/posthog/pull/81257",
+            "title": "chore(dev): drop localstack from the dev stack",
+            "note": "Closed issue(s) #53436"
+          },
+          {
+            "prNumber": 54933,
+            "url": "https://github.com/PostHog/posthog/pull/54933",
+            "title": "feat(stamphog): support stacked PRs",
+            "note": "Merged work"
+          },
+          {
+            "prNumber": 61182,
+            "url": "https://github.com/PostHog/posthog/pull/61182",
+            "title": "feat(engineering_analytics): CI analytics scene",
+            "note": "Merged work"
+          }
+        ],
+        "leverage": [
+          {
+            "pathPrefix": ".github",
+            "prCount": 122,
+            "note": "weight 2"
+          },
+          {
+            "pathPrefix": "bin",
+            "prCount": 5,
+            "note": "weight 2"
+          },
+          {
+            "pathPrefix": "common",
+            "prCount": 4,
+            "note": "weight 2"
+          }
+        ],
+        "multiplier": [
+          {
+            "prNumber": 65727,
+            "url": "https://github.com/PostHog/posthog/pull/65727",
+            "reviewState": "CHANGES_REQUESTED",
+            "note": "CHANGES_REQUESTED on @webjunkie's PR"
+          },
+          {
+            "prNumber": 58053,
+            "url": "https://github.com/PostHog/posthog/pull/58053",
+            "reviewState": "COMMENTED",
+            "note": "COMMENTED on @gantoine's PR"
+          },
+          {
+            "prNumber": 62443,
+            "url": "https://github.com/PostHog/posthog/pull/62443",
+            "reviewState": "COMMENTED",
+            "note": "COMMENTED on @webjunkie's PR"
+          }
+        ],
+        "reliability": [
+          {
+            "prNumber": 54933,
+            "url": "https://github.com/PostHog/posthog/pull/54933",
+            "title": "feat(stamphog): support stacked PRs",
+            "note": "CI (.github)"
+          },
+          {
+            "prNumber": 61182,
+            "url": "https://github.com/PostHog/posthog/pull/61182",
+            "title": "feat(engineering_analytics): CI analytics scene",
+            "note": "clickhouse"
+          },
+          {
+            "prNumber": 62737,
+            "url": "https://github.com/PostHog/posthog/pull/62737",
+            "title": "feat(ci): checked-in test quarantine with hard expiry",
+            "note": "CI (.github)"
+          }
+        ]
+      }
+    },
+    {
+      "rank": 5,
+      "login": "rafaeelaudibert",
+      "name": null,
+      "avatarUrl": "https://github.com/rafaeelaudibert.png",
+      "composite": 28.5,
+      "dimensions": {
+        "delivery": {
+          "score": 8,
+          "weight": 0.4,
+          "raw": 197.5
+        },
+        "leverage": {
+          "score": 79.7,
+          "weight": 0.25,
+          "raw": 72.5
+        },
+        "multiplier": {
+          "score": 2.3,
+          "weight": 0.2,
+          "raw": 237,
+          "distinctAuthors": 44
+        },
+        "reliability": {
+          "score": 32.6,
+          "weight": 0.15,
+          "raw": 44
+        }
+      },
+      "why": "Broad or infra-critical footprint (common).",
+      "evidence": {
+        "delivery": [
+          {
+            "prNumber": 96866,
+            "url": "https://github.com/PostHog/posthog/pull/96866",
+            "title": "fix(app): stop in-page translation crashing whole scenes",
+            "note": "Closed issue(s) #30492, #46669"
+          },
+          {
+            "prNumber": 61955,
+            "url": "https://github.com/PostHog/posthog/pull/61955",
+            "title": "feat(signals): surface health check issues as inbox signals",
+            "note": "Merged work"
+          },
+          {
+            "prNumber": 62589,
+            "url": "https://github.com/PostHog/posthog/pull/62589",
+            "title": "feat(max): drive PostHog AI status banner from incident.io",
+            "note": "Merged work"
+          }
+        ],
+        "leverage": [
+          {
+            "pathPrefix": "common",
+            "prCount": 10,
+            "note": "weight 2"
+          },
+          {
+            "pathPrefix": ".github",
+            "prCount": 6,
+            "note": "weight 2"
+          },
+          {
+            "pathPrefix": "bin",
+            "prCount": 5,
+            "note": "weight 2"
+          }
+        ],
+        "multiplier": [
+          {
+            "prNumber": 62583,
+            "url": "https://github.com/PostHog/posthog/pull/62583",
+            "reviewState": "CHANGES_REQUESTED",
+            "note": "CHANGES_REQUESTED on @MattBro's PR"
+          },
+          {
+            "prNumber": 64399,
+            "url": "https://github.com/PostHog/posthog/pull/64399",
+            "reviewState": "CHANGES_REQUESTED",
+            "note": "CHANGES_REQUESTED on @mjwarren3's PR"
+          },
+          {
+            "prNumber": 65601,
+            "url": "https://github.com/PostHog/posthog/pull/65601",
+            "reviewState": "CHANGES_REQUESTED",
+            "note": "CHANGES_REQUESTED on @MattBro's PR"
+          }
+        ],
+        "reliability": [
+          {
+            "prNumber": 63854,
+            "url": "https://github.com/PostHog/posthog/pull/63854",
+            "title": "chore(feature-flags): remove empty flags_read_through_cache file",
+            "note": "rust/"
+          },
+          {
+            "prNumber": 63856,
+            "url": "https://github.com/PostHog/posthog/pull/63856",
+            "title": "chore: update copyright year to 2026",
+            "note": "CI (.github)"
+          },
+          {
+            "prNumber": 63863,
+            "url": "https://github.com/PostHog/posthog/pull/63863",
+            "title": "chore(storybook): move test-runner files to `common/storybook/`",
+            "note": "Matched reliability/CI/security path or label"
+          }
+        ]
+      }
+    }
+  ]
+}

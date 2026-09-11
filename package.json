@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "fetch": "tsx scripts/fetch.ts",
+    "fetch:pass2": "tsx scripts/fetch.ts --pass2",
+    "score": "tsx scripts/score.ts"
   },
   "dependencies": {
     "next": "16.3.4",
@@ -21,6 +24,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
     "tailwindcss": "^4",
+    "tsx": "^4",
     "typescript": "^5"
   }
 }
